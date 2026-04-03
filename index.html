@@ -142,9 +142,19 @@ function renderCheckout(){
 
 function payNow(){alert('Payment Successful 🎉');cart=[];updateCart();document.getElementById('paymentPage').style.display='none'}
 
-function showPage(page){
+// function showPage(page){
+//  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active-page'));
+//  document.getElementById(page).classList.add('active-page');
+// }
+
+  function showPage(page){
  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active-page'));
  document.getElementById(page).classList.add('active-page');
+
+ // 🔥 ADD THIS LINE
+ if(page === 'shop'){
+   render();
+ }
 }
 
 function searchProducts(q){
