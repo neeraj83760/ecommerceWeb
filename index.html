@@ -165,9 +165,14 @@ function payNow(){alert('Payment Successful 🎉');cart=[];updateCart();document
  document.getElementById(page).classList.add('active-page');
 
  // 🔥 ADD THIS LINE
- if(page === 'shop'){
-   render();
- }
+ // if(page === 'shop'){
+ //   render();
+ // }
+
+    if(page === 'shop'){
+  document.querySelector('.search input').value = "";
+  render();
+}
 }
 
 function searchProducts(q){
