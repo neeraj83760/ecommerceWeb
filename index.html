@@ -138,12 +138,13 @@ function renderFeatured(){
  </div>`).join('');
 }
 
+
  function addToCart(id){
  const p=products.find(x=>x.id===id);
  cart.push(p);
  updateCart();
 
- // Unique event ID (for deduplication)
+ // Unique event ID
  const eventId = "event_" + Date.now();
 
  // Facebook Pixel (browser)
@@ -153,9 +154,10 @@ function renderFeatured(){
    currency:'INR'
  }, {eventID: eventId});
 
- // Send to AWS server (CAPI)
+ // 🔥 CAPI call (THIS IS YOUR CODE LOCATION)
  fetch('http://3.110.43.224:3000/track', {
    method: 'POST',
+   mode: 'no-cors',
    headers: {
      'Content-Type': 'application/json'
    },
@@ -166,12 +168,14 @@ function renderFeatured(){
    })
  });
 
- // ✅ Auto close cart after adding
+ // Optional: open cart then auto close
+ document.getElementById('cartPanel').classList.add('active');
+
  setTimeout(() => {
    document.getElementById('cartPanel').classList.remove('active');
  }, 1500);
 }
-
+ 
 function updateCart(){
  let total=0;
  document.getElementById('cartItems').innerHTML=cart.map((item,index)=>{
