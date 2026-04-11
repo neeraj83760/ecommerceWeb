@@ -6,131 +6,149 @@
 <title>Neeraj Electronics</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
+<!-- Facebook Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+
+fbq('init','3137197143193083');
+fbq('track','PageView');
+</script>
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
 body{background:#f1f5f9}
 
-header{display:flex;align-items:center;justify-content:space-between;background:#1e3a8a;color:#fff;padding:12px 20px;flex-wrap:wrap}
-.logo{font-size:20px;font-weight:600}
-.logo span{color:#facc15}
-.search{flex:1;margin:10px}
-.search input{width:100%;padding:10px;border-radius:8px;border:none}
-.nav a{margin-left:15px;color:#fff;text-decoration:none;cursor:pointer}
+header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;background:#1e3a8a;color:#fff;padding:12px}
+.nav a{margin-left:10px;color:#fff;cursor:pointer}
+.search{width:100%;margin-top:10px}
+.search input{width:100%;padding:8px;border-radius:6px;border:none}
 
-.page{display:none;padding:20px}
-.active-page{display:block}
+.hero{background:linear-gradient(90deg,#1e3a8a,#2563eb);color:#fff;padding:30px;border-radius:10px;margin:15px;text-align:center}
+.hero h1{font-size:24px}
+.hero p{margin-top:10px}
 
-.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:15px}
-.card{background:#fff;border-radius:10px;padding:10px;box-shadow:0 3px 10px rgba(0,0,0,0.1)}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:15px;padding:15px}
+.card{background:#fff;padding:10px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
 .card img{width:100%;height:140px;object-fit:cover;border-radius:8px}
-.price{color:#1e40af;font-weight:600}
-button{width:100%;padding:8px;border:none;border-radius:6px;margin-top:5px;background:#1e3a8a;color:#fff}
+button{background:#1e3a8a;color:#fff;border:none;padding:8px;margin-top:5px;border-radius:5px;width:100%}
 
-.cart-btn{position:fixed;bottom:15px;right:15px;background:#1e3a8a;color:#fff;padding:10px 15px;border-radius:25px}
-.cart-panel{position:fixed;right:-100%;top:0;width:300px;height:100%;background:#fff;padding:15px;transition:.3s;overflow:auto}
+.page{display:none}
+.active{display:block}
+
+.cart{position:fixed;bottom:10px;right:10px;background:#1e3a8a;color:#fff;padding:10px;border-radius:20px;cursor:pointer}
+.cart-panel{position:fixed;right:-100%;top:0;width:280px;height:100%;background:#fff;padding:15px;transition:.3s;overflow:auto}
 .cart-panel.active{right:0}
 
-.payment-page{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;justify-content:center;align-items:center}
-.payment-box{background:#fff;padding:20px;border-radius:10px;width:90%;max-width:300px}
-
+@media(max-width:600px){
+ header{flex-direction:column;align-items:flex-start}
+}
 </style>
 </head>
 
 <body>
 <header>
-  <div class="logo">⚡ Neeraj <span>Electronics</span></div>
-  <div class="search"><input placeholder="Search products..." onkeyup="searchProducts(this.value)"></div>
-  <div class="nav">
-    <a onclick="showPage('home')">Home</a>
-    <a onclick="showPage('shop')">Shop</a>
-    <a onclick="showPage('contact')">Contact</a>
-  </div>
+<div>⚡ Neeraj Electronics</div>
+<div class="nav">
+<a onclick="showPage('home')">Home</a>
+<a onclick="showPage('shop')">Shop</a>
+<a onclick="showPage('contact')">Contact</a>
+</div>
+<div class="search"><input placeholder="Search products..." onkeyup="searchProducts(this.value)"></div>
 </header>
 
 <!-- HOME -->
-<div id="home" class="page active-page">
-  <h2>Welcome to Neeraj Electronics ⚡</h2>
-  <p>Best deals on laptops, mobiles & accessories.</p>
+<div id="home" class="page active">
+<div class="hero">
+<h1>Welcome to Neeraj Electronics ⚡</h1>
+<p>Explore top gadgets, best prices & latest tech</p>
+</div>
+
+<h2 style="padding:10px">🔥 Featured Products</h2>
+<div class="products" id="featured"></div>
 </div>
 
 <!-- SHOP -->
 <div id="shop" class="page">
-  <h2>Shop Products</h2>
-  <div class="products" id="productList"></div>
+<div class="products" id="products"></div>
 </div>
 
 <!-- CONTACT -->
 <div id="contact" class="page">
-  <h2>Contact Us</h2>
-  <p>Name: Neeraj Electronics</p>
-  <p>Email: support@neeraj.com</p>
-  <p>Phone: +91 9876543210</p>
+<h2>Contact Us</h2>
+<p>Email: support@neeraj.com</p>
+<p>Phone: +91 9876543210</p>
 </div>
 
-<div class="cart-btn" onclick="toggleCart()">🛒 (<span id="count">0</span>)</div>
+<div class="cart" onclick="toggleCart()">🛒 <span id="count">0</span></div>
 
 <div class="cart-panel" id="cartPanel">
-  <h3>Cart</h3>
-  <div id="cartItems"></div>
-  <h4>Total ₹<span id="total">0</span></h4>
-  <button onclick="checkout()">Checkout</button>
-</div>
-
-<div class="payment-page" id="paymentPage">
-  <div class="payment-box">
-    <h3>Checkout</h3>
-    <div id="checkoutItems"></div>
-    <button onclick="payNow()">Pay Now</button>
-  </div>
+<h3>Cart</h3>
+<div id="cartItems"></div>
+<h4>Total ₹<span id="total">0</span></h4>
 </div>
 
 <script>
 const products=[
- {id:1,name:"Laptop",price:50000,img:"https://images.unsplash.com/photo-1517336714731-489689fd1ca8"},
- {id:2,name:"Phone",price:20000,img:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9"},
- {id:3,name:"Headphones",price:5000,img:"https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5"},
- {id:4,name:"Camera",price:40000,img:"https://images.unsplash.com/photo-1512499617640-c2f999098c01"},
-  {
-      id: 5,
-      name: "Smartphone",
-      price: 25000,
-      img: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9"
-    },
-  {
-      id: 6,
-      name: "Smartwatch",
-      price: 8000,
-      img: "https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b"
-    }
-  
+{id:1,name:"Laptop",price:50000,img:"https://images.unsplash.com/photo-1517336714731-489689fd1ca8"},
+{id:2,name:"Smartphone",price:20000,img:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9"},
+{id:3,name:"Headphones",price:3000,img:"https://images.unsplash.com/photo-1518441902110-2c2e4c7a0c3b"},
+{id:4,name:"Smartwatch",price:7000,img:"https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b"},
+{id:5,name:"Camera",price:40000,img:"https://images.unsplash.com/photo-1512499617640-c2f999098c01"},
+{id:6,name:"Bluetooth Speaker",price:2500,img:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad"},
+{id:7,name:"Tablet",price:30000,img:"https://images.unsplash.com/photo-1542751371-adc38448a05e"},
+{id:8,name:"Gaming Mouse",price:1500,img:"https://images.unsplash.com/photo-1587202372775-9895b7bfa52d"},
+{id:9,name:"Keyboard",price:2000,img:"https://images.unsplash.com/photo-1517336714731-489689fd1ca8"},
+{id:10,name:"Monitor",price:12000,img:"https://images.unsplash.com/photo-1587829741301-dc798b83add3"},
+{id:11,name:"Power Bank",price:1800,img:"https://images.unsplash.com/photo-1580910051074-3eb694886505"},
+{id:12,name:"Router",price:2200,img:"https://images.unsplash.com/photo-1555617117-08c6a2c7fefb"},
+{id:13,name:"Drone",price:45000,img:"https://images.unsplash.com/photo-1508615070457-7baeba4003ab"},
+{id:14,name:"VR Headset",price:25000,img:"https://images.unsplash.com/photo-1593508512255-86ab42a8e620"},
+{id:15,name:"Microphone",price:5000,img:"https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4"},
+{id:16,name:"LED TV",price:60000,img:"https://images.unsplash.com/photo-1593784991095-a205069470b6"}
 ];
 
 let cart=[];
 
-function render(){
- document.getElementById('productList').innerHTML=products.map(p=>`
-  <div class="card">
-    <img src="${p.img}">
-    <div>${p.name}</div>
-    <div class="price">₹${p.price}</div>
-    <button onclick="addToCart(${p.id})">Add</button>
-  </div>
- `).join('');
+function render(list=products){
+ document.getElementById('products').innerHTML=list.map(p=>`
+ <div class="card">
+ <img src="${p.img}">
+ <h3>${p.name}</h3>
+ <p>₹${p.price}</p>
+ <button onclick="addToCart(${p.id})">Add to Cart</button>
+ </div>`).join('');
+}
+
+function renderFeatured(){
+ const items=products.slice(0,4);
+ document.getElementById('featured').innerHTML=items.map(p=>`
+ <div class="card">
+ <img src="${p.img}">
+ <h3>${p.name}</h3>
+ <p>₹${p.price}</p>
+ </div>`).join('');
 }
 
 function addToCart(id){
  const p=products.find(x=>x.id===id);
  cart.push(p);
  updateCart();
+ fbq('track','AddToCart',{content_name:p.name,value:p.price,currency:'INR'});
 }
 
 function updateCart(){
- document.getElementById('count').innerText=cart.length;
  let total=0;
- document.getElementById('cartItems').innerHTML=cart.map((i,index)=>{
-  total+=i.price;
-  return `<div>${i.name} ₹${i.price} <button onclick="removeItem(${index})">❌</button></div>`;
+ document.getElementById('cartItems').innerHTML=cart.map((item,index)=>{
+ total+=item.price;
+ return `<div>${item.name} ₹${item.price} <button onclick="removeItem(${index})">❌</button></div>`;
  }).join('');
+ document.getElementById('count').innerText=cart.length;
  document.getElementById('total').innerText=total;
 }
 
@@ -139,64 +157,44 @@ function removeItem(index){
  updateCart();
 }
 
-function toggleCart(){document.getElementById('cartPanel').classList.toggle('active')}
-
-function checkout(){
- document.getElementById('paymentPage').style.display='flex';
- document.getElementById('cartPanel').classList.remove('active');
- renderCheckout();
+function toggleCart(){
+ document.getElementById('cartPanel').classList.toggle('active');
 }
 
-function renderCheckout(){
- document.getElementById('checkoutItems').innerHTML=cart.map((i,index)=>`
-  <div>${i.name} ₹${i.price} <button onclick="removeItem(${index});renderCheckout()">Remove</button></div>
- `).join('');
-}
-
-function payNow(){alert('Payment Successful 🎉');cart=[];updateCart();document.getElementById('paymentPage').style.display='none'}
-
-// function showPage(page){
-//  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active-page'));
-//  document.getElementById(page).classList.add('active-page');
-// }
-
-  function showPage(page){
- document.querySelectorAll('.page').forEach(p=>p.classList.remove('active-page'));
- document.getElementById(page).classList.add('active-page');
-
- // 🔥 ADD THIS LINE
- // if(page === 'shop'){
- //   render();
- // }
-
-    if(page === 'shop'){
-  document.querySelector('.search input').value = "";
-  render();
-}
+function showPage(page){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ document.getElementById(page).classList.add('active');
+ if(page==='shop'){render();}
+ if(page==='contact'){fbq('track','Contact');}
 }
 
 function searchProducts(q){
  const filtered=products.filter(p=>p.name.toLowerCase().includes(q.toLowerCase()));
- document.getElementById('productList').innerHTML=filtered.map(p=>`
-  <div class="card">
-    <img src="${p.img}">
-    <div>${p.name}</div>
-    <div class="price">₹${p.price}</div>
-    <button onclick="addToCart(${p.id})">Add</button>
-  </div>
- `).join('');
+ render(filtered);
 }
 
-// close cart on outside click
-window.addEventListener('click',function(e){
- const cartPanel=document.getElementById('cartPanel');
- const btn=document.querySelector('.cart-btn');
- if(!cartPanel.contains(e.target)&&!btn.contains(e.target)){
-  cartPanel.classList.remove('active');
- }
-});
-
 render();
+renderFeatured();
 </script>
+
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
