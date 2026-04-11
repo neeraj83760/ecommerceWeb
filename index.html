@@ -138,11 +138,38 @@ function renderFeatured(){
  </div>`).join('');
 }
 
-function addToCart(id){
+ function addToCart(id){
  const p=products.find(x=>x.id===id);
  cart.push(p);
  updateCart();
- fbq('track','AddToCart',{content_name:p.name,value:p.price,currency:'INR'});
+
+ // Unique event ID (for deduplication)
+ const eventId = "event_" + Date.now();
+
+ // Facebook Pixel (browser)
+ fbq('track','AddToCart',{
+   content_name:p.name,
+   value:p.price,
+   currency:'INR'
+ }, {eventID: eventId});
+
+ // Send to AWS server (CAPI)
+ fetch('http://3.110.43.224:3000/track', {
+   method: 'POST',
+   headers: {
+     'Content-Type': 'application/json'
+   },
+   body: JSON.stringify({
+     event_name: "AddToCart",
+     value: p.price,
+     event_id: eventId
+   })
+ });
+
+ // ✅ Auto close cart after adding
+ setTimeout(() => {
+   document.getElementById('cartPanel').classList.remove('active');
+ }, 1500);
 }
 
 function updateCart(){
