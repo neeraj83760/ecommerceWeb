@@ -145,29 +145,52 @@ function renderFeatured(){
  updateCart();
 
  // Unique event ID
- const eventId = "event_" + Date.now();
+ // const eventId = "event_" + Date.now();
 
- // Facebook Pixel (browser)
- fbq('track','AddToCart',{
-   content_name:p.name,
-   value:p.price,
-   currency:'INR'
- }, {eventID: eventId});
+ // // Facebook Pixel (browser)
+ // fbq('track','AddToCart',{
+ //   content_name:p.name,
+ //   value:p.price,
+ //   currency:'INR'
+ // }, {eventID: eventId});
 
- // 🔥 CAPI call (THIS IS YOUR CODE LOCATION)
- fetch('https://handyman-earpiece-powdering.ngrok-free.dev/track', {
-   method: 'POST',
-   // mode: 'no-cors'
-   headers: {
-     'Content-Type': 'application/json'
-   },
-   body: JSON.stringify({
-     event_name: "AddToCart",
-     value: p.price,
-     event_id: eventId
-   })
- });
+ // // 🔥 CAPI call (THIS IS YOUR CODE LOCATION)
+ // fetch('https://handyman-earpiece-powdering.ngrok-free.dev/track', {
+ //   method: 'POST',
+ //   // mode: 'no-cors'
+ //   headers: {
+ //     'Content-Type': 'application/json'
+ //   },
+ //   body: JSON.stringify({
+ //     event_name: "AddToCart",
+ //     value: p.price,
+ //     event_id: eventId
+ //   })
+ // });
 
+const eventId = Date.now().toString();
+
+fetch('https://handyman-earpiece-powdering.ngrok-free.dev/track', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    event_name: "AddToCart",
+    value: p.price,
+    event_id: eventId
+  })
+});
+
+// ALSO send browser event with SAME ID
+fbq('track', 'AddToCart', {
+  value: p.price,
+  currency: 'INR'
+}, {
+  eventID: eventId
+});
+
+  
  // Optional: open cart then auto close
  document.getElementById('cartPanel').classList.add('active');
 
